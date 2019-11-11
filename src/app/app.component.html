@@ -1,20 +1,40 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="box">
+  <div ngCollapsible [ngCollapseOptions]="{accessibility: true, arrowSide: 'start', showArrow: true, accordion: true}">
+    <h2>Header: </h2>
+    <ul>
+      <li>item 1</li>
+      <li>item 2</li>
+      <li>item 3</li>
+      <li>item 4</li>
+      <li>item 5</li>
+      <li>item 6</li>
+      <li>item 7</li>
+    </ul>
+  </div>
 
+  <div ngCollapsible [ngCollapseOptions]="{accessibility: false, arrowSide: 'end', showArrow: true, accordion: true}">
+    <h3>Header: </h3>
+    <ul>
+      <li>item 11</li>
+      <li>item 22</li>
+      <li>item 33</li>
+      <li>item 44</li>
+      <li>item 55</li>
+      <li>item 66</li>
+      <li>item 77</li>
+    </ul>
+  </div>
+
+  <div ngCollapsible [isOpen]="true" [ngCollapseOptions]="{accessibility: true, arrowSide: 'start', showArrow: true, accordion: true}">
+    <h4>Header: </h4>
+    <ul>
+      <li>item 111</li>
+      <li>item 222</li>
+      <li>item 333</li>
+      <li>item 444</li>
+      <li>item 555</li>
+      <li>item 666</li>
+      <li>item 777</li>
+    </ul>
+  </div>
+</div>

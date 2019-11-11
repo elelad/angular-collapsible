@@ -1,0 +1,26 @@
+:host ::ng-deep {
+    .ngCollapseHeaderBox {
+        display: flex;
+        flex-basis: row;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .ngCollapseHeader {
+        flex: 1;
+    }
+
+
+    .ngCollapseHeaderBox .ngCollapseIcon {
+        width: 24px;
+        height: 24px;
+        margin-left: 16px;
+        margin-right: 16px;
+
+        svg {
+            fill: inherit;
+            font-size: inherit;
+            background: inherit;
+        }
+    }
+}
