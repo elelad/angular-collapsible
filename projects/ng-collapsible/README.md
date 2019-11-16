@@ -1,5 +1,6 @@
 # Ng-Collapsible
-Simple Angular component (as directive) for collapse. No dependencies, no need for Bootstrap or jQuery.
+A simple Angular component (as directive) for collapse. No dependencies, no need for Bootstrap or jQuery.
+See working example: [here](https://elelad.github.io/angular-collapsible/).
 
 ## How to Use
 * Install: `npm i ng-collapsible --save`
@@ -68,7 +69,7 @@ To change the style of the icon change `.ngCollapseIcon svg` style.
 
 
 ## Compatibility
-Tested with Angular 8 and Ionic with Angular 5.
+Tested with Angular 8 and Ionic 3 with Angular 5.
 
 
 ## License 
