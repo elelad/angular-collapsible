@@ -71,5 +71,5 @@ To change the style of the icon change `.ngCollapseIcon svg` style.
 Tested with Angular 8 and Ionic with Angular 5.
 
 
-## Licence 
+## License 
 MIT

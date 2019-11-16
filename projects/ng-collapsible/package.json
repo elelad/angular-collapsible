@@ -1,6 +1,9 @@
 {
   "name": "ng-collapsible",
   "version": "0.0.1",
+  "author": {
+    "name": "Elad Elram"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"
