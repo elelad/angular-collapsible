@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+html{
+    background-color: rgba(0,0,0,0.9);
+}
+
 html,
 body {
     margin: 0px;
     padding: 0px;
+    font-family: 'Roboto', sans-serif;
 }
+

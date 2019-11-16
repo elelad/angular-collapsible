@@ -1,21 +1,25 @@
 import {
-  OnInit, Directive, ElementRef, AfterViewInit, Input, Renderer2,
-  SimpleChanges, OnChanges, OnDestroy, Component, ViewEncapsulation
+  AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+  Renderer2, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
 import {
-  ionicForwardIcon, ionicDownIcon,
-  NgCollapsibleOptions,
-  NgCollapsibleDefaultOptions,
-  NgCollapsibleArrowSide,
-  NgCollapsibleCloseAttribute
+  NgCollapsibleArrowSide, NgCollapsibleCloseAttribute, NgCollapsibleDefaultOptions, NgCollapsibleOptions,
+  ionicCloseIcon, ionicOpenIcon, NgCollapsibleIconSet, mdCloseIcon, mdOpenIcon, plusMinusCloseIcon, plusMinusOpenIcon
 } from './ng-collapsible.model';
 
 @Component({
   // tslint:disable-next-line: component-selector
   selector: '[ngCollapsible]',
-  template: '<ng-content></ng-content>',
-  styleUrls: ['./ng-collapsible.component.scss'],
-  // encapsulation: ViewEncapsulation.None
+  template: `
+  <style>
+    .ngCollapseHeaderBox{display: flex;flex-direction: row;align-items: center;cursor: pointer;}
+    .ngCollapseHeader{flex: 1;}
+    .ngCollapseIcon{width: 24px;height: 24px;margin-left: 16px;margin-right: 16px;}
+    .ngCollapseIcon svg{fill: inherit;font-size: inherit;background: inherit;}
+    .ngCollapseItems{margin-left: 16px;}
+  </style>
+  <ng-content></ng-content>`,
+  encapsulation: ViewEncapsulation.None
 })
 export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private id: number;
@@ -44,18 +48,16 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
   ngOnInit() {
-    console.log('directive works');
+    this.id = Math.floor(Math.random() * 10000000);
   }
 
   ngAfterViewInit() {
-    this.id = Math.floor(Math.random() * 10000000);
-    this.el.nativeElement.className += this.id;
+    this.el.nativeElement.className += ' ' + this.id;
     this.initCollapsible();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.isOpen && !changes.isOpen.firstChange && changes.isOpen.currentValue !== changes.isOpen.previousValue) {
-      console.log('isOpen changed');
       this.hideItems();
       this.changeIcon();
     }
@@ -69,16 +71,22 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
 
 
   initCollapsible() {
+    if (this.el.nativeElement.children.length <= 0) { return; }
+    this.header = this.el.nativeElement.children.item(0);
+    if (this.el.nativeElement.children.length < 1) { return; }
     this.items = this.el.nativeElement.children;
     this.buildHeader();
+    this.buildIcon();
     this.buildItems();
     this.changeIcon();
     this.hideItems();
-    this.registerListners();
+    this.registerListeners();
+    this.addAccessibility();
+
 
   }
 
-  registerListners() {
+  registerListeners() {
     this.headerBox.addEventListener('click', this.clickListener);
     this.headerBox.addEventListener('keydown', this.keydownListener);
     if (this.ngCollapseOptions.accordion) {
@@ -93,10 +101,10 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
         this.isOpen = false;
         this.changeIcon();
         this.hideItems();
+        this.addAccessibility();
       }
     }
   }
-
 
   clickListener = () => {
     this.toggleCollapse();
@@ -109,21 +117,20 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   buildHeader() {
-    this.header = this.items.item(0);
     this.headerBox = this.renderer.createElement('div');
-    if (this._ngCollapseOptions.accessibility) {
-      this.headerBox.setAttribute('tabindex', '0');
-    }
     this.renderer.addClass(this.headerBox, 'ngCollapseHeaderBox');
     this.renderer.insertBefore(this.el.nativeElement, this.headerBox, this.header);
     this.renderer.appendChild(this.headerBox, this.header);
     this.renderer.addClass(this.header, 'ngCollapseHeader');
-    // this.renderer.setStyle(this.header, 'flex-grow', 1);
+  }
+
+  buildIcon() {
     const iconChild = this.renderer.createElement('div');
     iconChild.className += 'ngCollapseIcon';
+    const icons = this.getIcon();
     iconChild.innerHTML = `
-        <span [hidden]="!isOpen" class="ngCollapseCloseIcon">${ionicForwardIcon}</span>
-        <span [hidden]="isOpen" class="ngCollapseOpenIcon">${ionicDownIcon}</span>
+        <span [hidden]="!isOpen" class="ngCollapseCloseIcon">${icons.closeIcon}</span>
+        <span [hidden]="isOpen" class="ngCollapseOpenIcon">${icons.openIcon}</span>
       `;
     if (this.ngCollapseOptions.arrowSide === NgCollapsibleArrowSide.start && this.ngCollapseOptions.showArrow) {
       this.renderer.insertBefore(this.headerBox, iconChild, this.header);
@@ -134,11 +141,29 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
     }
     this.closeIcon = this.headerBox.getElementsByClassName('ngCollapseCloseIcon').item(0) as HTMLElement;
     this.openIcon = this.headerBox.getElementsByClassName('ngCollapseOpenIcon').item(0) as HTMLElement;
+  }
 
+  getIcon() {
+    switch (this.ngCollapseOptions.iconSet) {
+      case NgCollapsibleIconSet.ionic:
+        return { closeIcon: ionicCloseIcon, openIcon: ionicOpenIcon };
+        break;
+      case NgCollapsibleIconSet.md:
+        return { closeIcon: mdCloseIcon, openIcon: mdOpenIcon };
+        break;
+      case NgCollapsibleIconSet.plusMinus:
+        return { closeIcon: plusMinusCloseIcon, openIcon: plusMinusOpenIcon };
+        break;
+      default:
+        return { closeIcon: ionicCloseIcon, openIcon: ionicOpenIcon };
+        break;
+    }
   }
 
   buildItems() {
+    if (this.items <= 1) { return; }
     this.itemsBox = this.renderer.createElement('div');
+    this.renderer.addClass(this.itemsBox, 'ngCollapseItems');
     for (const i = 1; i < this.items.length;) {
       this.renderer.appendChild(this.itemsBox, this.items.item(i));
     }
@@ -169,13 +194,44 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
     this.changeIcon();
     this.hideItems();
     if (this.ngCollapseOptions.accordion) {
-      const allNgCollapseElements: NodeListOf<Element> = document.querySelectorAll('[ngCollapsible]');
+      const allNgCollapseElements: HTMLElement[] = document.querySelectorAll('[ngCollapsible]') as any as Array<HTMLElement>;
       allNgCollapseElements.forEach(el => {
         if (!el.classList.contains(this.id.toString())) {
           el.setAttribute(NgCollapsibleCloseAttribute, '');
         }
       });
     }
+    this.addAccessibility();
+  }
+
+  addAccessibility() {
+    if (this.ngCollapseOptions.accessibility) {
+      this.headerBox.setAttribute('tabindex', '0');
+      this.headerBox.setAttribute('aria-expanded', this.isOpen.toString());
+      this.itemsBox.setAttribute('aria-hidden', (!this.isOpen).toString());
+    }
+  }
+
+  fixHeaderAngularNgContentCss() { // no need if ViewEncapsulation.None
+    // const attrs = this.header.attributes;
+    // let newAtt = '';
+    // let attToRemove = '';
+    // // tslint:disable-next-line: prefer-for-of
+    // for (let i = 0; i < attrs.length; i++) {
+    //   const at = attrs[i];
+    //   if (at.name.startsWith('_ngcontent')) {
+    //     attToRemove = at.name;
+    //     const atName = at.name.replace('=""', '');
+    //     const indexOf = atName.lastIndexOf('-') + 1;
+    //     const atStart = atName.substring(0, indexOf + 1);
+    //     const atNum = +atName.substring(indexOf + 1);
+    //     newAtt = atStart + (atNum + 1);
+    //   }
+    // }
+    // if (newAtt !== '') {
+    //   this.header.setAttribute(newAtt, '');
+    //   this.header.removeAttribute(attToRemove);
+    // }
   }
 
 }

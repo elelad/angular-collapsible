@@ -4,6 +4,7 @@
     body {
         margin: 0px;
         padding: 0px;
+        
     }
 
     body{
@@ -11,27 +12,49 @@
     }
 }
 
+.header{
+    color: white;
+    margin: 16px;
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .box {
-    max-width: 500px;
+    max-width: 400px;
+    width: 300px;
     margin: 30px auto;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    //box-shadow: 4px 4px 8px gray;// rgba(255, 255, 255, 0.1);
+    margin: 16px;
     padding: 16px;
-    border-radius: 4px;
+    border-radius: 8px;
+    background-color: purple; // rgba(255,255,255,0.5);
 }
 
 :host ::ng-deep {
-    .ngCollapseIcon{
-        fill: red
+    .ngCollapseHeaderBox .ngCollapseIcon{
+        fill: white;
+        width: 18px;
+        height: 18px;
     }
 
     .ngCollapseHeaderBox{
-        background-color: lightgrey;
-        margin: 4px;
+        border-bottom: 1px solid lightgrey;
+        margin: 8px;
+        
+    }
+    
+    .ngCollapseHeader{
+        color: lightgrey;
+    }
+
+    .ngCollapseItems{
+        color: lightblue;
     }
 }
-
-// .ngCollapseIcon{
-//     width: 40px;
-//     height: 40px;
-// }

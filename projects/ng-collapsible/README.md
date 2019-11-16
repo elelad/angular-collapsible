@@ -1,24 +1,75 @@
-# NgCollapsible
+# Ng-Collapsible
+Simple Angular component (as directive) for collapse. No dependencies, no need for Bootstrap or jQuery.
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+## How to Use
+* Install: `npm i ng-collapsible --save`
+* Import to your @NgModule or any other module file : `import { NgCollapsibleModule } from 'ng-collapsible';`
+* Add to the module import sections: `imports: [ BrowserModule, NgCollapsibleModule]`
+* Add the attribute ngCollapsible to your element:
+    ```html
+    <div ngCollapsible>
+        <h4>Simple Collapsible: </h4>
+        <li *ngFor="let item of items">{{item}}</li>
+    </div>
+    ```
+    > Note: ngCollapsible will use the first element as a clickable header and the other as the collapsible items.
 
-## Code scaffolding
 
-Run `ng generate component component-name --project Ng-Collapsible` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project Ng-Collapsible`.
-> Note: Don't forget to add `--project Ng-Collapsible` or else it will be added to the default project in your `angular.json` file. 
+## Component Inputs
+### isOpen
+Use `[isOpen]` to programmatically close or open the collapse items:
+```html
+<div ngCollapsible [isOpen]="true">
+    <h4>Start Open Collapsible:</h4>
+    <div *ngFor="let item of items">{{item}}</div>
+</div>
+```
+### ngCollapseOptions
+Pass an object of type `NgCollapsibleOptions` to `[ngCollapseOptions]` in order to customize some behavior:
+```typescript
+interface NgCollapsibleOptions {
+    showArrow?: boolean;
+    arrowSide?: NgCollapsibleArrowSide;
+    accessibility?: boolean;
+    iconSet?: NgCollapsibleIconSet;
+    accordion?: boolean;
+}
+```
+#### Options
+- showArrow: boolean - choose if to add an icon to the header. default `true`
+- arrowSide: NgCollapsibleArrowSide - choose the side of the icon. default `start`
+- accessibility: boolean - choose to add an accessibility attributes to the clickable header and the collapse items. default `true`
+- iconSet: NgCollapsibleIconSet - choose an icon set. default `ionic`
+- accordion: boolean - declare the element as a part of accordion, to close it when other accordion element will open. default `false`
 
-## Build
+#### Helpers
+You have few interfaces and enums to help you fill `NgCollapsibleOptions`, all importable:
+```typescript
+export enum NgCollapsibleArrowSide {
+    start = 'start',
+    end = 'end'
+}
 
-Run `ng build Ng-Collapsible` to build the project. The build artifacts will be stored in the `dist/` directory.
+export enum NgCollapsibleIconSet {
+    ionic = 'ionic',
+    md = 'md',
+    plusMinus = 'plus-minus'
+}
+```
 
-## Publishing
 
-After building your library with `ng build Ng-Collapsible`, go to the dist folder `cd dist/ng-collapsible` and run `npm publish`.
+## Style
+For compatibility the encapsulation of the component sets to `ViewEncapsulation.None`
+This way you can apply any style to any element even from your global css file. The component uses few css classes, you can override them and set your own style: 
+```css
+.ngCollapseHeaderBox, .ngCollapseHeader, .ngCollapseIcon, .ngCollapseItems
+```
+To change the style of the icon change `.ngCollapseIcon svg` style.
 
-## Running unit tests
 
-Run `ng test Ng-Collapsible` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Compatibility
+Tested with Angular 8 and Ionic with Angular 5.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Licence 
+MIT
