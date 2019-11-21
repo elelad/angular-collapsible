@@ -16,7 +16,7 @@ import {
     .ngCollapseHeader{flex: 1;}
     .ngCollapseIcon{width: 24px;height: 24px;margin-left: 16px;margin-right: 16px;}
     .ngCollapseIcon svg{fill: inherit;font-size: inherit;background: inherit;}
-    .ngCollapseItems{margin-left: 16px;}
+    .ngCollapseItems{}
   </style>
   <ng-content></ng-content>`,
   encapsulation: ViewEncapsulation.None
@@ -64,9 +64,13 @@ export class NgCollapsibleComponent implements OnInit, AfterViewInit, OnChanges,
   }
 
   ngOnDestroy(): void {
-    this.htmlObserver.disconnect();
-    this.headerBox.removeEventListener('click', this.clickListener);
-    this.headerBox.removeEventListener('keydown', this.keydownListener);
+    if (this.htmlObserver) {
+      this.htmlObserver.disconnect();
+    }
+    if (this.headerBox) {
+      this.headerBox.removeEventListener('click', this.clickListener);
+      this.headerBox.removeEventListener('keydown', this.keydownListener);
+    }
   }
 
 

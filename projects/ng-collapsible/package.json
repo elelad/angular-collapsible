@@ -1,6 +1,6 @@
 {
   "name": "ng-collapsible",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple Angular component (as directive) for collapse. No dependencies, no need for Bootstrap or jQuery.",
   "author": {
     "name": "Elad Elram"
